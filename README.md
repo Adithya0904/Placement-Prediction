@@ -1,2 +1,2 @@
 # Placement-Prediction
-The Placement Prediction app is a tool designed to help students assess their chances of getting placed based on their academic performance, skills, and other relevant factors. 
+The Placement Prediction app is a tool designed to help students assess their chances of getting placed based on their academic performance, skills, and other relevant factors. Using machine learning algorithms, the app analyzes data such as grades, technical skills, extracurricular activities, and interview performance to provide personalized predictions and insights, empowering students to focus on areas that can improve their placement prospects.
