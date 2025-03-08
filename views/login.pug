@@ -1,0 +1,79 @@
+doctype html
+html(lang="en")
+  head
+    meta(charset="UTF-8")
+    meta(name="viewport" content="width=device-width, initial-scale=1.0")
+    title Nexus | #{title}
+    link(rel="stylesheet" href="styleslog.css")
+    link(rel="icon", href="/logo.png", class="head-logo")
+  
+  body
+    <div id="alert-container"></div>
+    .login-page
+      // Centered Logo
+      .logo-container
+        img.small-logo(src="logo.png" alt="Logo")
+      
+      // Login Form
+      .login-container
+        h1 Login
+        form(action="#" method="POST" id="form-containor")
+          label(for="email") Email
+          input#email(type="email" name="email" placeholder="Enter your email" required)
+          
+          label(for="password") Password
+          input#password(type="password" name="password" placeholder="Enter your password" required)
+          
+          button.login-btn(type="submit") Login
+        
+        // Sign-Up Option
+        p.signup-text
+          | New to this site? 
+          a.signup-link(href="/signup") Sign Up
+
+    script(type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.min.js")
+    script.
+        document.addEventListener("DOMContentLoaded", () => {
+            document.getElementById("form-containor").addEventListener("submit", async (event) => {
+                event.preventDefault(); // Prevent the default form submission
+                const email = document.getElementById("email").value;
+                const password = document.getElementById("password").value;
+                console.log(email, password);
+          
+                try {
+                    const result = await axios({
+                        method: "POST",
+                        url: "http://127.0.0.1:8000/api/auth/logIn",
+                        data: { email, password }
+                    });
+                    if (result.data.status === 'success') {
+                        showAlert("You have logged-in Successfully!!","success")
+                        window.setTimeout(() => {
+                            location.assign("/Home");
+                        }, 1000);
+                    }
+                } catch (err) {
+                    showAlert(`${err.response.data.message}`,"error")
+                    console.error("Error submitting form:", err);
+                }
+            });
+        });
+        function showAlert(message, type) {
+              // Create alert div
+              const alert = document.createElement('div');
+              alert.classList.add('alert', `alert-${type}`);
+              alert.innerHTML = `
+                  <span>${message}</span>
+                  <button onclick="this.parentElement.remove()" style="background:none;border:none;color:white;font-size:16px;cursor:pointer;">&times;</button>
+              `;
+
+              // Append to container
+              const container = document.getElementById('alert-container');
+              container.appendChild(alert);
+
+              // Remove alert after 3 seconds
+              setTimeout(() => {
+                  alert.remove();
+              }, 3000);
+          }
+

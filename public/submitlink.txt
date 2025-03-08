@@ -1,0 +1,47 @@
+.submit-link {
+    display: inline-block;
+    background-color: #333; /* Grayish Black */
+    color: white;
+    padding: 10px 15px;
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: bold;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.submit-link:hover {
+    background-color: #555; /* Lighter gray on hover */
+}
+
+if needed place in the Anchor Link Styling!!
+
+
+app.get('/Results/:id', async(req, res) => {
+    // Handle the GET request
+    const result=await Prediction.findElementById(req.params.id)
+
+    // res.json({ message: 'Data received successfully' });
+
+    res.status(200).render('result',{
+        message:'success',
+        result
+    })
+});
+
+
+.congrats-message, .sorry-message {
+    font-size: 24px;
+    font-weight: bold;
+    color: #444; /* Dark gray */
+    white-space: pre-line; /* Enable line breaks for \n */
+}
+
+.congrats-message {
+    color: green; /* Success message color */
+}
+
+.sorry-message {
+    color: red; /* Error message color */
+}

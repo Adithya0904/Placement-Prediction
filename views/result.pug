@@ -1,0 +1,39 @@
+doctype html
+html(lang="en")
+  head
+    meta(charset="UTF-8")
+    meta(name="viewport", content="width=device-width, initial-scale=1.0")
+    title Nexus | #{title}
+    link(rel="stylesheet", href="/styles1.css")
+    link(rel="icon", href="/logo.png", class="head-logo")
+  
+  body
+    // Header Section
+    header
+      .header-container
+        .header-left
+          //- a.home-btn(href="/") Home
+        .header-center
+          img(src="/logo.png", alt="Logo", class="logo")
+        .header-right
+
+    // Content Section
+    main
+      .content-container
+        .result-box
+          if getresult.PlacementStatus === "Placed"
+            p.result-message.placed Congratulations!! You are PLACED!!
+          else
+            p.result-message.not-placed Sorry!! You are NOT-PLACED!!
+
+          // Return Button
+          a.return-btn(href="/Home") Return to Home
+
+    // Footer Section
+    footer
+      .footer-container
+        .footer-left
+          img(src="/logo.png", alt="Logo", class="footer-logo")
+        .footer-right
+          a(href="/", class="about-us") About Us
+          span.watermark © Nexus

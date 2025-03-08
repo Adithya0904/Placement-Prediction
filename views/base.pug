@@ -1,0 +1,168 @@
+doctype html
+html(lang="en")
+  head
+    meta(charset="UTF-8")
+    meta(name="viewport", content="width=device-width, initial-scale=1.0")
+    title Nexus | #{title}
+    link(rel="stylesheet", href="/styles.css")
+    link(rel="icon", href="/logo.png", class="head-logo")
+  
+  body
+    // Header Section
+    <div id="alert-container"></div>
+    header
+      .header-container
+        .header-left
+          a.home-btn(href="/Home") Home
+        .header-center
+          img(src="/logo.png", alt="Logo", class="logo")
+        .header-right
+          a.login-btn(href="/", id="logout") Logout 
+          //- a.sign-in-btn(href="#") Sign In
+
+
+
+    // Content Section
+    main
+      .content-container
+        form(id="create-form")
+          // Required Numerical Fields
+          label(for="tenthPercentage") 10th Percentage
+            span * 
+          input(type="number", id="tenthPercentage", name="tenthPercentage",step="0.01", required, min=40,max=100)
+
+          label(for="twelthPercentage") 12th Percentage
+            span * 
+          input(type="number", id="twelthPercentage", name="twelthPercentage", step="0.01",required, min=40,max=100)
+
+          label(for="cgpa") CGPA
+            span * 
+          input(type="number", id="cgpa", name="cgpa", step="0.01", required,min=5,max=10)
+
+          label(for="communicationSkillRatings") Communication Skill Ratings
+            span * 
+          input(type="number", id="communicationSkillRatings", name="communicationSkillRatings",step="0.01", required,min=1,max=5)
+
+          // Additional Numerical Fields
+          label(for="majorProjects") Major Projects
+          input(type="number", id="majorProjects", name="majorProjects", min=0 , value=0)
+
+          label(for="minorProjects") Minor Projects
+          input(type="number", id="minorProjects", name="minorProjects", min=0, value=0)
+
+          // File Upload Field
+          label(for="workshopsCertificates") Workshops/Certificates
+          input(type="file", id="workshopsCertificates", name="workshopsCertificates", multiple)
+
+          // Dropdown Fields
+          label(for="internship") Internship
+          select(id="internship", name="internship")
+            option(value="No", selected) No
+            option(value="Yes") Yes
+
+          label(for="hackathon") Hackathon
+          select(id="hackathon", name="hackathon")
+            option(value="No", selected) No
+            option(value="Yes") Yes
+
+          label(for="backlog") Backlog
+          input(type="number", id="backlog", name="backlog", min=0 , value=0)
+
+          // Submit Button
+          <button type="submit">Submit</button>
+          a(href="#", class="submit-link",id="submit-link")
+
+    // Footer Section
+    footer
+      .footer-container
+        .footer-left
+          img(src="/logo.png", alt="Logo", class="footer-logo")
+        .footer-right
+          a(href="/", class="about-us") About Us
+          span.watermark © Nexus
+
+    // JavaScript Integration
+    script(type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.min.js")
+    script.
+      document.addEventListener("DOMContentLoaded", () => {
+        const form = document.querySelector("form");
+        //- const submit = document.querySelector("submit");
+
+        document.getElementById('create-form').addEventListener("submit", async (event) => {
+          event.preventDefault(); // Prevent the default form submission
+
+          // Gather form data
+          const formData = {
+            tenthPercentage: document.getElementById("tenthPercentage").value,
+            twelthPercentage: document.getElementById("twelthPercentage").value,
+            CGPA: document.getElementById("cgpa").value,
+            CommunicationSkillRatings: document.getElementById("communicationSkillRatings").value,
+            MajorProjects: document.getElementById("majorProjects").value,
+            MinorProjects: document.getElementById("minorProjects").value,
+            WorkshopsCertificates: Array.from(document.getElementById("workshopsCertificates").files).map(file => file.name),
+            Internship: document.getElementById("internship").value,
+            Hackathon: document.getElementById("hackathon").value,
+            Backlog: document.getElementById("backlog").value,
+          };
+
+        //-   console.log(formData);
+
+          try {
+            const response = await fetch("http://127.0.0.1:8000/submit/", {
+              method: "post",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify(formData),
+            });
+            //- console.log(response)
+                const result = await response.json();
+                console.log (result.message); // Show success message
+                console.log(result.id)
+
+            //Update Submit Button href
+                const submitlink=document.getElementById("submit-link")
+                submitlink.href=`/Home/Results/${result.id}`
+                setTimeout(()=>{submitlink.click()},1500)
+            
+          } catch (error) {
+            console.error("Error submitting form:", error);
+            alert("Failed to submit form. Please try again.");
+          }
+        });
+      });
+      document.addEventListener("DOMContentLoaded",()=>{
+        document.getElementById("logout").addEventListener("click",async (event)=>{
+          event.preventDefault()
+          const result=await axios({
+            method:"GET",
+            url: "http://127.0.0.1:8000/api/auth/logOut"
+          })
+          if(result.data.status==="success"){
+            showAlert("Logged-out Successfully!!","success")
+            window.setTimeout(()=>{
+              location.reload()
+            },3000)
+          }else{
+            showAlert("Logged-out Failed!!","error")
+          }
+        })
+      })
+      function showAlert(message, type) {
+              // Create alert div
+              const alert = document.createElement('div');
+              alert.classList.add('alert', `alert-${type}`);
+              alert.innerHTML = `
+                  <span>${message}</span>
+                  <button onclick="this.parentElement.remove()" style="background:none;border:none;color:white;font-size:16px;cursor:pointer;">&times;</button>
+              `;
+
+              // Append to container
+              const container = document.getElementById('alert-container');
+              container.appendChild(alert);
+
+              // Remove alert after 3 seconds
+              setTimeout(() => {
+                  alert.remove();
+              }, 3000);
+          }
+    
+

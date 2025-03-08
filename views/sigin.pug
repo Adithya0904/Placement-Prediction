@@ -1,0 +1,92 @@
+doctype html
+html(lang="en")
+  head
+    meta(charset="UTF-8")
+    meta(name="viewport" content="width=device-width, initial-scale=1.0")
+    title Nexus | #{title}
+    link(rel="stylesheet" href="stylessign.css")
+    link(rel="icon", href="/logo.png", class="head-logo")
+  
+  body
+    <div id="alert-container"></div>
+    .signup-container
+      .signup-box
+        .logo-container
+          img.small-logo(src="logo.png" alt="Logo")
+        
+        h1 Sign Up
+        
+        form.signup-form(action="/signup" method="POST")
+          .form-group
+            label(for="name") Name:
+            input#name(type="name" name="name" placeholder="Enter your name" required)
+
+          .form-group
+            label(for="email") Email Address:
+            input#email(type="email" name="email" placeholder="Enter your email address" required)
+          
+          .form-group
+            label(for="institute") Institute Name:
+            input#institute(type="text" name="institute" placeholder="Enter your institute name" required)
+          
+          .form-group
+            label(for="password") Create Password:
+            input#password(type="password" name="password" placeholder="Create your password" required)
+          
+          .form-group
+            label(for="confirm-password") Confirm Password:
+            input#confirm-password(type="password" name="confirm-password" placeholder="Confirm your password" required)
+          
+          button.btn(type="submit") Create Account
+        
+        p.login-link
+          | Already have an account? 
+          a(href="/") Login
+    script(type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.min.js")
+    script.
+        document.addEventListener("DOMContentLoaded", () => {
+            document.querySelector("form").addEventListener("submit", async (event) => {
+                event.preventDefault(); // Prevent the default form submission
+                const name = document.getElementById("name").value;
+                const email = document.getElementById("email").value;
+                const institute = document.getElementById("institute").value;
+                const password = document.getElementById("password").value;
+                const confirm_password = document.getElementById("confirm-password").value;
+                console.log(name, email, institute, password, confirm_password);
+          
+                try {
+                    const result = await axios({
+                        method: "POST",
+                        url: "http://127.0.0.1:8000/api/auth/signIn",
+                        data: {name, email, institute, password, confirm_password}
+                    });
+                    if (result.data.status === 'success') {
+                        showAlert("You have Signed-in Successfully!!","success")
+                        window.setTimeout(() => {
+                            location.assign("/Home");
+                        }, 1000);
+                    }
+                } catch (err) {
+                    showAlert(`${err.response.data.message}`,"error")
+                    console.error("Error submitting form:", err);
+                }
+            });
+        });
+        function showAlert(message, type) {
+              // Create alert div
+              const alert = document.createElement('div');
+              alert.classList.add('alert', `alert-${type}`);
+              alert.innerHTML = `
+                  <span>${message}</span>
+                  <button onclick="this.parentElement.remove()" style="background:none;border:none;color:white;font-size:16px;cursor:pointer;">&times;</button>
+              `;
+
+              // Append to container
+              const container = document.getElementById('alert-container');
+              container.appendChild(alert);
+
+              // Remove alert after 3 seconds
+              setTimeout(() => {
+                  alert.remove();
+              }, 3000);
+        }

@@ -1,0 +1,179 @@
+/* General Reset */
+body, html {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    box-sizing: border-box;
+    height: 110%;
+}
+
+/* Background Styling */
+body {
+    background-color: #000000; /* Pure black background */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.logo-container {
+    margin-bottom: -40px;
+}
+
+.small-logo {
+    height: 100px;
+    width: auto;
+}
+
+/* Form Container Styling */
+.signup-container {
+    background-color: #121212; /* Slightly lighter black for contrast */
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 20px rgba(255, 255, 255, 0.1), 0 0 10px rgba(255, 255, 255, 0.3); /* Added shadow effect */
+    width: 100%;
+    max-width: 400px;
+    border: 2px solid gray; /* White border */
+    text-align: center;
+    color: white;
+    position: relative;
+}
+
+
+.signup-container .logo {
+    width: 100px;
+    height: auto;
+    margin-bottom: 20px;
+}
+
+.signup-container h1 {
+    font-size: 24px;
+    margin-bottom: 20px;
+    font-weight: bold;
+}
+
+/* Form Styling */
+.signup-container form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin-top: 20px;
+}
+
+/* Input Styling */
+
+.signup-container label {
+    font-size: 14px;
+    color: white;
+    display: block;
+    margin-bottom: 8px;
+    text-align: left;
+}
+
+.signup-container input {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    margin-bottom: 15px;
+    background-color: #1c1c1c;
+    color: white;
+    font-size: 16px;
+}
+
+.signup-container input:focus {
+    border-color: #ffffff;
+    outline: none;
+}
+
+/* Button Styling */
+.signup-container .btn {
+    width: 100%;
+    padding: 10px;
+    background-color: #0056ff; /* Bright blue button */
+    border: none;
+    border-radius: 5px;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.signup-container .btn:hover {
+    background-color: #003bb3; /* Darker blue on hover */
+}
+
+/* Link Styling */
+.signup-container .login-link {
+    margin-top: 20px;
+    color: #ffffff;
+    text-decoration: none;
+    font-size: 14px;
+    display: inline-block;
+}
+
+.signup-container .login-link:hover {
+    text-decoration: underline;
+}
+
+/* Alert Container */
+#alert-container {
+    position: fixed; /* Always at the top of the viewport */
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    z-index: 9999; /* Ensures it stays above all content */
+    align-items: center; /* Aligns alerts properly */
+    width: fit-content; /* Adjusts the width based on content */
+    padding: 10px;
+}
+
+/* Alert Styles */
+.alert {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 15px 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    font-family: Arial, sans-serif;
+    font-size: 16px;
+    color: #fff;
+    opacity: 0;
+    transform: translateY(-20px);
+    animation: slide-in 0.3s forwards, fade-out 0.3s 2.7s forwards;
+    align-items: center; /* Ensure alerts align properly */
+}
+
+/* Success Alert */
+.alert-success {
+    background-color: #28a745;
+}
+
+/* Error Alert */
+.alert-error {
+    background-color: #dc3545;
+}
+
+/* Animation */
+@keyframes slide-in {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fade-out {
+    to {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+}
